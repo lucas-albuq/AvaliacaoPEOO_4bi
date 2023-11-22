@@ -24,7 +24,7 @@ class ManterAgendaUI:
       st.dataframe(df)
 
   def inserir():
-    datastr = st.text_input("Informe a data no formato *dd/mm/aaaa HH:MM*")
+    datastr = st.text_input("Informe a data no formato *dd/mm/aaaa HH\:MM*")
     clientes = View.cliente_listar()
     cliente = st.selectbox("Selecione o cliente", clientes)
     servicos = View.servico_listar()
@@ -73,3 +73,5 @@ class ManterAgendaUI:
         st.success("Horário excluído com sucesso")
         time.sleep(2)
         st.rerun()
+
+

@@ -1,102 +1,95 @@
 import json
 
 class Cliente:
+  def __init__(self, id, nome, email, fone, senha):
+    self.__id = id
+    self.__nome = nome
+    self.__email = email
+    self.__fone = fone
+    self.__senha = senha
 
-    def __init__(self, id, nome, email, fone):
-        self.__id = id
-        self.__nome = nome
-        self.__email = email
-        self.__fone = fone
+  def get_id(self): return self.__id
+  def get_nome(self): return self.__nome
+  def get_email(self): return self.__email
+  def get_fone(self): return self.__fone
+  def get_senha(self): return self.__senha
 
-    def get_id(self):
-        return self.__id
+  def set_id(self, id): self.__id = id
+  def set_nome(self, nome): self.__nome = nome
+  def set_email(self, email): self.__email = email
+  def set_fone(self, fone): self.__fone = fone
+  def set_senha(self, senha): self.__senha = senha
 
-    def get_nome(self):
-        return self.__nome
+  def __eq__(self, x):
+    if self.__id == x.__id and self.__nome == x.__nome and self.__email == x.__email and self.__fone == x.__fone and self.__senha == x.__senha:
+      return True
+    return False
 
-    def get_email(self):
-        return self.__email
+  def __str__(self):
+    return f"{self.__id} - {self.__nome} - {self.__email} - {self.__fone}"
 
-    def get_fone(self):
-        return self.__fone
 
-    def set_id(self, id):
-        self.__id = id
-
-    def set_nome(self, nome):
-        self.__nome = nome
-
-    def set_email(self, email):
-        self.__email = email
-
-    def set_fone(self, fone):
-        self.__fone = fone
-
-    def __str__(self):
-        return f"{self.__id} - {self.__nome} - {self.__email} - {self.__fone}"
-    
-    def __eq__(self, x):
-        if self.__id == x.__id and self.__nome == x.__nome and self.__email == x.__email and self.__fone == x.__fone:
-            return True
-        return False
-    
 class NCliente:
-    __clientes = []
-    
-    @classmethod
-    def inserir(cls, obj):
-        NCliente.abrir()
-        id = 0
-        for cliente in cls.__clientes:
-            if cliente.get_id() > id: id = cliente.get_id()
-        obj.set_id(id+1)
-        cls.__clientes.append(obj)
-        NCliente.salvar()
+  __clientes = []  # lista de clientes inicia vazia
 
-    @classmethod
-    def listar(cls):
-        NCliente.abrir()
-        return cls.__clientes
+  @classmethod
+  def inserir(cls, obj):
+    cls.abrir()
+    id = 0  # encontrar o maior id já usado
+    for aux in cls.__clientes:
+      if aux.get_id() > id: id = aux.get_id()
+    obj.set_id(id + 1)
+    cls.__clientes.append(obj)  # insere um cliente (obj) na lista
+    cls.salvar()
 
-    @classmethod
-    def listar_id(cls, id):
-        NCliente.abrir()
-        for obj in cls.__clientes:
-            if obj.get_id() == id:
-                return obj
-        return None    
+  @classmethod
+  def listar(cls):
+    cls.abrir()
+    return cls.__clientes  # retorna a lista de clientes
 
-    @classmethod
-    def atualizar(cls, obj):
-        NCliente.abrir()
-        c = NCliente.listar_id(obj.get_id())
-        if c is not None:
-            c.set_nome(obj.get_nome)
-            c.set_email(obj.get_email)
-            c.set_fone(obj.get_fone)
-            NCliente.salvar()
+  @classmethod
+  def listar_id(cls, id):
+    cls.abrir()
+    for obj in cls.__clientes:
+      if obj.get_id() == id: return obj
+    return None
 
-    @classmethod
-    def excluir(cls, obj):
-        NCliente.abrir()
-        c = NCliente.listar_id(obj.get_id())
-        if c is not None:
-            cls.__clientes.remove(c)
-            NCliente.salvar()
+  @classmethod
+  def atualizar(cls, obj):
+    cls.abrir()
+    aux = cls.listar_id(obj.get_id())
+    if aux is not None:
+      aux.set_nome(obj.get_nome())
+      aux.set_email(obj.get_email())
+      aux.set_fone(obj.get_fone())
+      aux.set_senha(obj.get_senha())
+      cls.salvar()
 
-    @classmethod
-    def abrir(cls):
-        try:
-            cls.__clientes = []
-            with open("Clientes.json", "r") as f:
-                clientes_json = json.load(f)
-                for obj in clientes_json:
-                    c = Cliente(obj["_Cliente__id"], obj["_Cliente__nome"], obj["_Cliente__email"], obj["_Cliente__fone"])
-                    cls.__clientes.append(c)
-        except FileNotFoundError:
-            pass
+  @classmethod
+  def excluir(cls, obj):
+    cls.abrir()
+    aux = cls.listar_id(obj.get_id())
+    if aux is not None:
+      cls.__clientes.remove(aux)
+      cls.salvar()
 
-    @classmethod
-    def salvar(cls):
-        with open('Clientes.json', 'w') as f:
-            json.dump(cls.__clientes, f, default=vars)
+  @classmethod
+  def abrir(cls):
+    cls.__clientes = []
+    try:
+      with open("clientes.json", mode="r") as arquivo:
+        clientes_json = json.load(arquivo)
+        for obj in clientes_json:
+          aux = Cliente(obj["_Cliente__id"], 
+                        obj["_Cliente__nome"], 
+                        obj["_Cliente__email"],
+                        obj["_Cliente__fone"],
+                        obj["_Cliente__senha"])
+          cls.__clientes.append(aux)
+    except FileNotFoundError:
+      pass
+
+  @classmethod
+  def salvar(cls):
+    with open("clientes.json", mode="w") as arquivo:
+      json.dump(cls.__clientes, arquivo, default=vars)
