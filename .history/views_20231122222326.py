@@ -120,8 +120,7 @@ class View:
     horarios_disponiveis = []
 
     for agenda in View.agenda_listar():
-        #Botei também para quando solicitar um agendamento, não ficar mais disponível para outro agendamento até que o adm confirme ou não.
-        if hoje.date() <= agenda.get_data().date() <= uma_semana.date() and agenda.get_confirmado() == False and agenda.get_id_cliente() == agenda.get_id_servico() == 0:
+        if hoje.date() <= agenda.get_data().date() <= uma_semana.date() and agenda.get_confirmado() == Falseagenda.get_id_cliente == agenda.get_id_servico == '0':
             horarios_disponiveis.append(agenda)
 
     return horarios_disponiveis

@@ -9,7 +9,7 @@ from templates.abrircontaUI import AbrirContaUI
 from templates.editarPerfilUI import EditarPerfilUI
 from templates.agendarHorarioUI import AgendarHorarioUI
 from templates.visAgendamentosUI import VisualizarAgendamentoUI
-from templates.confirmarAgendamentosUI import ConfirmarAgendamentoUI
+from templates.confirmarUI import ConfirmarAgendamentoUI
 from views import View
 
 import streamlit as st

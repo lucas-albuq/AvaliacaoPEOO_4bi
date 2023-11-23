@@ -6,10 +6,10 @@ from templates.loginUI import LoginUI
 from templates.agendahojeUI import AgendaHojeUI
 from templates.servicoreajusteUI import ServicoReajusteUI
 from templates.abrircontaUI import AbrirContaUI
-from templates.editarPerfilUI import EditarPerfilUI
-from templates.agendarHorarioUI import AgendarHorarioUI
-from templates.visAgendamentosUI import VisualizarAgendamentoUI
-from templates.confirmarAgendamentosUI import ConfirmarAgendamentoUI
+from templates.editarperfilUI import EditarPerfilUI
+from templates.agendarhorarioUI import AgendarHorarioUI
+from templates.agendamentosUI import VisualizarAgendamentoUI
+from templates.admconfirmarUI import ConfirmarAgendamentoUI
 from views import View
 
 import streamlit as st
